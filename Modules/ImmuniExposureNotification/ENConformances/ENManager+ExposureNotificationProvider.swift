@@ -32,7 +32,13 @@ extension ENManager: ExposureNotificationProvider {
   }
 
   public func setExposureNotificationEnabled(_ enabled: Bool) -> Promise<Void> {
-    return Promise { self.setExposureNotificationEnabled(enabled, completionHandler: $0) }
+    return Promise { resolve, _, _ in
+      self.setExposureNotificationEnabled(enabled) { err in
+        print("[DEBUG EN] Error is \(err)")
+        print("[DEBUG EN] Error is \(err?.localizedDescription)")
+        resolve(())
+      }
+    }
   }
 
   public func detectExposures(
